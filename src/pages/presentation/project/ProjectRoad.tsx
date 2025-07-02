@@ -10,15 +10,14 @@ import Icon from '../../../components/icon/Icon';
 import Input from '../../../components/bootstrap/forms/Input';
 import PaginationButtons from '../../../components/PaginationButtons';
 import { useProjects } from './ProjectsContext'; // <-- use context
-import Modal from '../../../components/bootstrap/Modal'; // Make sure this path matches your Modal component
+import { useNavigate } from 'react-router-dom'; // Add this import
 
 const ProjectRoad: React.FC = () => {
-    const { projects } = useProjects(); // <-- use context
+    const { projects } = useProjects();
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [perPage, setPerPage] = useState<number>(5);
-    const [viewModalOpen, setViewModalOpen] = useState(false);
-    const [selectedProject, setSelectedProject] = useState<any>(null);
-    const [searchTerm, setSearchTerm] = useState<string>(''); // <-- Add search state
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const navigate = useNavigate(); // Add this line
 
     // Dynamic search filter for all relevant fields
     const filteredProjects = projects.filter((item) =>
@@ -125,8 +124,7 @@ const ProjectRoad: React.FC = () => {
                                                             isLight
                                                             className="d-flex align-items-center"
                                                             onClick={() => {
-                                                                setSelectedProject(item);
-                                                                setViewModalOpen(true);
+                                                                navigate(`/project-roadmap/view/${item.code}`, { state: { project: item } });
                                                             }}
                                                         >
                                                             <Icon icon="Visibility" className="me-2" />
@@ -157,36 +155,6 @@ const ProjectRoad: React.FC = () => {
                     </div>
                 </div>
             </Page>
-            {/* Modal for Project Overview */}
-            <Modal isOpen={viewModalOpen} setIsOpen={setViewModalOpen} size="lg">
-                <div className="modal-header">
-                    <h5 className="modal-title">Overview</h5>
-                    <button type="button" className="btn-close" aria-label="Close" onClick={() => setViewModalOpen(false)} />
-                </div>
-                <div className="modal-body">
-                    {selectedProject && (
-                        <div className="row">
-                            <div className="col-8">
-                                <div className="mb-2"><strong>Project Name</strong>: {selectedProject.projectName}</div>
-                                <div className="mb-2">
-                                    <strong>Status</strong>:
-                                    <span className="ms-2" style={{ color: '#fbc02d', fontWeight: 600 }}>
-                                        ●
-                                    </span>
-                                    <span className="ms-1">{selectedProject.status}</span>
-                                </div>
-                                <div className="mb-2"><strong>Start Date</strong>: {selectedProject.startDate}</div>
-                                <div className="mb-2"><strong>Deadline</strong>: {selectedProject.deadline}</div>
-                                <div className="mb-2"><strong>Project Members</strong>: {selectedProject.members}</div>
-                            </div>
-                            <div className="col-4 text-end">
-                                <div className="mb-2"><strong>Project Progress</strong></div>
-                                <div>0% Progress</div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </Modal>
         </PageWrapper>
     );
 };

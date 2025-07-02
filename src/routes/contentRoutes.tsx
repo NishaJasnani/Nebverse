@@ -23,6 +23,8 @@ import ViewEmployeePage from '../pages/presentation/hr/ViewEmployeePage';
 import ProjectViewPage from '../pages/presentation/project/ProjectViewPage';
 import {ProjectDataProvider} from '../pages/presentation/project/ProjectDataContext';
 import ViewPageWrapper from '../pages/presentation/project/ViewPageWrapper';
+import ViewProjectRoadMapPage from '../pages/presentation/project/ViewProjectRoadMapPage';
+
 // import EmloyeeViewPage from '../pages/presentation/hr/EmployeeViewPage';
 
 // import TaskManagementPage from '../pages/presentation/task/TaskMangmentPage';
@@ -518,10 +520,15 @@ const presentation: RouteProps[] = [
 			<APP.WORK.PROJECTROADMAP/>
 		</ProjectsProvider>
 	},
+	{
+		path:'/project-roadmap/view/:code',
+		element:<ViewProjectRoadMapPage/>
+	},
 {
         path: '/contract/view',
 		element: <ContractViewPage />
 },
+
 	//TICKET PAGE
 	{
       path:dashboardPagesMenu.Ticket.path,
